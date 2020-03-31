@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../src/Player.svelte",
+    "../src/AddPlayer.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import { createEventDispatcher } from \"svelte\";\n  export let name;\n  export let points;\n  let showControls = false;\n  const dispatch = createEventDispatcher();\n\n  const addPoint = () => (points += 1);\n  const removePoint = () => (points -= 1);\n  const toggleControls = () => (showControls = !showControls);\n  const deletePlayer = () => dispatch(\"removeplayer\", name);\n\n  $: points = points == undefined ? 0 : points;\n</script>\n\n<style>\n  h1 {\n    color: #410b24;\n  }\n  h3 {\n    margin-bottom: 10px;\n  }\n</style>\n\n<div class=\"card\">\n  <h1>\n    {name}\n    <button class=\"btn btn-sm\" on:click={toggleControls}>\n      {showControls ? '-' : '+'}\n    </button>\n    <button class=\"btn btn-sm btn-danger\" on:click={deletePlayer}>x</button>\n  </h1>\n  <h3>Points: {points}</h3>\n  {#if showControls}\n    <button class=\"btn\" on:click={addPoint}>+1</button>\n    <button class=\"btn btn-dark\" on:click={removePoint}>-1</button>\n    <input type=\"number\" bind:value={points} />\n  {/if}\n</div>\n",
+    "<script>\n  import { createEventDispatcher } from \"svelte\";\n\n  const dispatch = createEventDispatcher();\n  let showErrors = false;\n\n  let player = {\n    name: \"\",\n    points: \"\"\n  };\n\n  function btnAddPlayerClicked() {\n    if (player.name !== \"\" && player.points !== undefined) {\n      dispatch(\"addplayer\", player);\n      player = {\n        name: \"\",\n        points: \"\"\n      };\n      showErrors = false;\n    } else {\n      showErrors = true;\n    }\n  }\n</script>\n\n<style>\n  .error {\n    font-size: 0.75em;\n    color: red;\n  }\n</style>\n\n<div class=\"grid-3 \">\n\n  <input type=\"text\" bind:value={player.name} placeholder=\"Player's name\" />\n\n  <input\n    type=\"number\"\n    bind:value={player.points}\n    placeholder=\"Player's points\" />\n\n  <button class=\"btn btn-primary\" on:click={btnAddPlayerClicked}>\n    Add Player\n  </button>\n</div>\n<p class=\"error\">{showErrors ? 'Invalid values for player' : ''}</p>\n"
+  ],
+  "names": [],
+  "mappings": "AAgBE,EAAE,eAAC,CAAC,AACF,KAAK,CAAE,OAAO,AAChB,CAAC,AACD,EAAE,eAAC,CAAC,AACF,aAAa,CAAE,IAAI,AACrB,CAAC;ACKD,MAAM,eAAC,CAAC,AACN,SAAS,CAAE,MAAM,CACjB,KAAK,CAAE,GAAG,AACZ,CAAC"
+}
